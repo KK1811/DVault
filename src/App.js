@@ -1,0 +1,32 @@
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import welcome from './components/setup/welcomeScreen';
+import generatekeys from './components/setup/generateKeys'
+import login from './components/user/login'
+import signup from './components/user/signup'
+import qrimage from './components/user/qrimage'
+import upload from './components/dashboard/upload'
+// import { Navbar } from './components/navigation/navbar'
+import homepage from './components/homepage/homepage'
+
+function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+      {/* <Navbar /> */}
+      <Switch>
+        <Route exact path='/' component={homepage} />
+        <Route exact path='/setup/welcome' component={welcome} />
+        <Route exact path='/setup/generatekeys' component={generatekeys} />
+        <Route exact path='/login' component={login} />
+        <Route exact path='/signup' component={signup} />
+        <Route exact path='/qr/:id' component={qrimage} />
+        <Route exact path='/upload' component={upload} />
+      </Switch>
+      </BrowserRouter>
+    </div>
+  );
+}
+
+export default App;

@@ -1,0 +1,5 @@
+npm install keypair
+
+npm i cryptico
+
+npm i axios
