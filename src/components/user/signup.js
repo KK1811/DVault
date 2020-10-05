@@ -152,7 +152,7 @@ class Signup extends Component {
     }else{
       this.setState({passErrorNumber: true})
     }
-    if (str.match(/[^a-zA-Z\d]/g)){
+    if (str.match(/[a-z]/g)){
       this.setState({passErrorSmall: false})
     }else{
       this.setState({passErrorSmall: true})
@@ -162,11 +162,11 @@ class Signup extends Component {
     }else{
       this.setState({passLength: true})
     }
-    if (str.length >= 2){
-      this.setState({passErrorSmall: false})
-    }else{
-      this.setState({passErrorSmall: true})
-    }
+    // if (str.length >= 2){
+    //   this.setState({passErrorSmall: false})
+    // }else{
+    //   this.setState({passErrorSmall: true})
+    // }
 
   };
 

@@ -9,6 +9,8 @@ import qrimage from './components/user/qrimage'
 import upload from './components/dashboard/upload'
 // import { Navbar } from './components/navigation/navbar'
 import homepage from './components/homepage/homepage'
+import test from './components/homepage/test'
+import download from './components/dashboard/download';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route exact path='/signup' component={signup} />
         <Route exact path='/qr/:id' component={qrimage} />
         <Route exact path='/upload' component={upload} />
+        <Route exact path='/test' component={test} />
+        <Route exact path='/download' component={download} />
       </Switch>
       </BrowserRouter>
     </div>

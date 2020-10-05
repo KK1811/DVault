@@ -104,8 +104,9 @@ class upload extends Component {
         // console.log(this.state)
         var body = JSON.stringify({fileName: localStorage.getItem('fileName'), fileExtention: this.state.fileExtension, fileData: this.state.encryptedData, userId: this.state.userid})
         console.log(body)
+        var file = localStorage.getItem('fileName')
         axios
-          .post(url, {fileName: "NewFile15", fileExtention: this.state.fileExtension, fileData: this.state.encryptedData, userId: this.state.userid}, config)
+          .post(url, {fileName: file, fileExtention: this.state.fileExtension, fileData: this.state.encryptedData, userId: this.state.userid}, config)
           .then((response) => {
             console.log(response.data.ipfsHash);
             if(response.data.ipfsHash != ""){

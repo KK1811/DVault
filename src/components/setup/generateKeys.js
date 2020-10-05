@@ -7,42 +7,55 @@ class generateKeys extends Component {
     state = {
         password: "",
         message: "",
-        publicKey: "",
-        privateKey: {}
+        matchPassword: false,
+        passwordError: ""
+    };
+
+    confirmPassword = e => {                                                       //checking if passwords match
+        // this.handleChange(e)
+        if(this.state.password === e.target.value){
+          this.setState({
+              matchPassword: true,
+              passwordError: ""
+          });
+        }else{
+            this.setState({
+                matchPassword: false,
+                passwordError: "Passwords don't match"
+            });
+        }
     };
 
     generate = () => {
         
         this.setState(
-            {message: "Please wait ..."}
+            { message: "Please wait ..." }
         )
 
         var passPhrase = this.state.password; 
- 
         var bits = 1024; 
  
         var userRSAkey = cryptico.generateRSAKey(passPhrase, bits);
-
         var userPublicKey = cryptico.publicKeyString(userRSAkey); 
 
-        console.log(userRSAkey);
-        console.log(userPublicKey);
-
-        localStorage.setItem('RSAKey', JSON.stringify(userRSAkey));
-        localStorage.setItem('publicKey', userPublicKey)
-        var pkey= localStorage.getItem('publicKey')
-        console.log(pkey)
-        // this.state.publicKey = "Keys generated"
+        this.downloadFile(userRSAkey)
+        this.uploadKey(userPublicKey)
+        
         this.setState(
-            {              
-                message: "Keys Generated"
-            }
+            { message: "Keys Generated" }
         )
 
-        console.log(this.state.publicKey)
-        console.log(this.state.privateKey)
-            this.uploadKey(userPublicKey)
-        
+        this.props.history.push(`/upload`)
+    }
+
+    downloadFile = (key) => {
+        const element = document.createElement("a");
+        console.log(key)
+        const file = new Blob([key], {type: 'JSON'});
+        element.href = URL.createObjectURL(file);
+        element.download = "RSAKey.json";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
     }
 
     uploadKey = (userPublicKey) => {
@@ -55,9 +68,7 @@ class generateKeys extends Component {
         axios
           .post(url, {publicKey: userPublicKey}, config)
           .then((response) => {
-            console.log(response.data);
-          
-            this.props.history.push(`/upload`)
+            console.log(response.data)
           })
           .catch((error) => {
             console.log(error.response);
@@ -67,10 +78,22 @@ class generateKeys extends Component {
     render(){
         const {password} = this.state.password;
         return(
-            <div className="container col-md-5">
-                <div style={{"padding-left":"280px", "padding-top":"50px", "padding-bottom":"50px"}}><h3>Generate Keys</h3></div>
+            <div className="container col-md-12">
+                
+                <div style={{"padding-left":"150px", "padding-top":"100px", "padding-bottom":"50px", "padding-right":"150px"}}>
+                    <h3>After generating cryptographic keys, a file containing your private key will be downloaded. 
+                        Please keep this file safe as it is required to access your data.
+                        Please store this file in a removable flash drive.
+                    </h3>
+                </div>
+
+                <div className="col-md-6 container"> 
+                <div style={{"padding-left":"320px", "padding-top":"50px", "padding-bottom":"50px"}}><h3>Generate Keys</h3></div>
+               
                 <h6>Please Enter your password to generate keys</h6>
+               
                 <br/><br/>
+
                 <input
                 className="form-control"
                 value={password}
@@ -78,14 +101,33 @@ class generateKeys extends Component {
                 type="password"
                 placeholder="Password"
                 />
+
+                <br/>
+
+                <label htmlFor="exampleInputPassword1">Confirm Password</label>
+                
+                <input
+                    className="form-control"
+                    id="confPassword"
+                    onChange={this.confirmPassword}
+                    type="password"
+                    placeholder="Confirm Password"
+                />
+
                 <br/><br/><br/>
-                <div style={{"padding-left":"280px", "padding-bottom":"50px"}}><button className="btn btn-success" onClick={this.generate}>Generate Keys</button></div>
-                <div style={{"padding-left":"290px", "padding-bottom":"50px"}}><p className="text-success">{this.state.message}</p></div>
+
+                <div style={{"padding-left":"350px", "padding-bottom":"50px"}}>
+                    <button className="btn btn-success" onClick={this.generate}>Generate Keys</button>
+                </div>
+
+                <div style={{"padding-left":"290px", "padding-bottom":"50px"}}>
+                    <p className="text-success">{this.state.message}</p>
+                </div>
+            </div>    
+            
             </div>
         )
     }
-
-
 }
 
 export default generateKeys;

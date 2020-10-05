@@ -50,7 +50,7 @@ class BuyerLogin extends Component{
       completeLogin = response => {                                     //completing Login process and storing token
         if (response.status === 200) {
           console.log(response)
-          // localStorage.setItem('token',response.data[1].token)
+          localStorage.setItem('token',response.data[1].token)
           // this.props.history.push(`/buyer/subscriptions`) 
           // this.props.location.aboutProps.update();
         }
