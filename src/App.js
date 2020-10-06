@@ -11,6 +11,8 @@ import upload from './components/dashboard/upload'
 import homepage from './components/homepage/homepage'
 import test from './components/homepage/test'
 import download from './components/dashboard/download';
+import decrypt from './components/dashboard/decrypt'
+import cryptotest from './components/homepage/crytotest'
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
         <Route exact path='/qr/:id' component={qrimage} />
         <Route exact path='/upload' component={upload} />
         <Route exact path='/test' component={test} />
+        <Route exact path='/ctest' component={cryptotest} />
         <Route exact path='/download' component={download} />
+        <Route exact path='/decrypt' component={decrypt} />
       </Switch>
       </BrowserRouter>
     </div>

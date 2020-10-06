@@ -14,6 +14,7 @@ class upload extends Component {
             fileName: "",
             fileExtension: "txt",
             userid: "",
+            publicKey:"",
             name:"",
             uploadMessage:""
         }
@@ -63,6 +64,7 @@ class upload extends Component {
     // }
 
     getPublicKey = () => {
+        // const url = "/users/myInfo?publicKey=true"
         const url = "/users/myInfo?publicKey=true"
         var token = localStorage.getItem("token");
         var config = {
@@ -86,8 +88,8 @@ class upload extends Component {
 
     encryptData = () => {
         // this.getPublicKey()
-        var pkey= localStorage.getItem('publicKey')
-        var EncryptionResult = cryptico.encrypt(this.state.fileText, 'gTW5CJ63BbYy6Oyv1hs3ERW4wvpcBKGIj3uCBn0a3bzpXT6vvxO/V2eWz481SHZbJBX8OKGXF7VXrerHYRlkSqhcGRjUfOQOjGS0kkHHRhO3FE0l9OD++AX9ksrazi1DekVeqzCPq1pLfK9W1MsdJo21XcF60bJ3LJQIDsIq7nk=');
+        // var pkey= localStorage.getItem('publicKey')
+        var EncryptionResult = cryptico.encrypt(this.state.fileText, this.state.publicKey);
         this.setState({encryptedData: EncryptionResult.cipher})
         console.log(EncryptionResult.cipher)
         this.uploadData(EncryptionResult.cipher)

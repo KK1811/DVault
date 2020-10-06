@@ -112,6 +112,7 @@ class BuyerLogin extends Component{
           .post(url, {email:this.state.email, otp:this.state.otp})
           .then((response) => {
             console.log(response.data);
+            console.log(response.data.token);
             localStorage.setItem('token', response.data.token)
             // this.validateUser()
             // this.setState({registerSuccess:true})

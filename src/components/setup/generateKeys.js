@@ -38,7 +38,30 @@ class generateKeys extends Component {
         var userRSAkey = cryptico.generateRSAKey(passPhrase, bits);
         var userPublicKey = cryptico.publicKeyString(userRSAkey); 
 
-        this.downloadFile(userRSAkey)
+        console.log(userRSAkey)
+
+        var RSAKeyString = JSON.stringify(userRSAkey)
+        var RSAKeyJSON = JSON.parse(RSAKeyString)
+
+        console.log(RSAKeyJSON)
+
+        // console.log(JSON.stringify(userRSAkey.dmp1))
+        // console.log(JSON.stringify(userRSAkey))
+        
+        // var coeff = userRSAkey.coeff
+        // var d = userRSAkey.d
+        // var dmp1 = userRSAkey.dmp1
+        // var dmq1 = userRSAkey.dmq1
+        // var e = userRSAkey.e
+        // var n = userRSAkey.n
+        // var p = userRSAkey.p
+        // var q = userRSAkey.q
+
+        // var RSAKey = {'coeff': coeff, 'd': d, 'dmp1': dmp1, 'dmq1': dmq1, 'e': e, 'n': n, 'p': p, 'q': q}
+        // console.log(RSAKey)
+        // console.log(JSON.stringify(RSAKey))
+
+        // this.downloadFile(JSON.stringify(RSAKey))
         this.uploadKey(userPublicKey)
         
         this.setState(
@@ -57,6 +80,8 @@ class generateKeys extends Component {
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
     }
+
+    
 
     uploadKey = (userPublicKey) => {
         const url = "/users/generateKeys";
