@@ -21,7 +21,7 @@ class BuyerLogin extends Component{
       }
     
       getData = () => {
-        if(this.state.captchaVerified){
+      
         const url = "/auth/userLogin"
         axios                                                          
           .post(url, {
@@ -36,10 +36,9 @@ class BuyerLogin extends Component{
             this.completeLogin(response);
           })
           .catch((error) => {
-            // this.errorLogin(error);
             console.log(error.response)
           });
-        }  
+        
       }
 
       errorLogin = e => {                                               //checking for invalid user
@@ -53,8 +52,6 @@ class BuyerLogin extends Component{
         if (response.status === 200) {
           console.log(response)
           localStorage.setItem('token',response.data[1].token)
-          // this.props.history.push(`/buyer/subscriptions`) 
-          // this.props.location.aboutProps.update();
         }
       };
 
@@ -116,10 +113,7 @@ class BuyerLogin extends Component{
             console.log(response.data);
             console.log(response.data.token);
             localStorage.setItem('token', response.data.token)
-            // this.validateUser()
-            // this.setState({registerSuccess:true})
             this.props.history.push(`/upload`)
-            // self.completeLogin(response);
           })
           .catch((error) => {
             console.log(error);
@@ -160,20 +154,14 @@ class BuyerLogin extends Component{
                   
                   <br/>
 
-                  {/* <Recaptcha
+                  <div className="container col-md-6">
+                    <Recaptcha
                     sitekey="6LeFUrYZAAAAADNlFBBeQs8jmNFkgfyx3palDZvJ"
                     render="explicit"
                     onloadCallback={this.recaptchaLoaded}
                     verifyCallback={this.verifyCallback}
-                  /> */}
-                <div className="container col-md-6">
-                  <Recaptcha
-                  sitekey="6LeFUrYZAAAAADNlFBBeQs8jmNFkgfyx3palDZvJ"
-                  render="explicit"
-                  onloadCallback={this.recaptchaLoaded}
-                  verifyCallback={this.verifyCallback}
-                  />
-                </div>
+                    />
+                  </div>
                   
                   <div className="container center" style={{"padding-left":"280px", "padding-top":"50px"}}><button className="btn btn-success center" onClick={this.getData}>Login</button></div>  
 

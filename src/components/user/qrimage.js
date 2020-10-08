@@ -28,9 +28,6 @@ class qrimage extends Component{
             console.log(response.data.token);
             localStorage.setItem('token', response.data.token)
             this.validateUser()
-            // this.setState({registerSuccess:true})
-            // this.props.history.push(`/login`)
-            // self.completeLogin(response);
           })
           .catch((error) => {
             console.log(error);
@@ -49,11 +46,6 @@ class qrimage extends Component{
           .then((response) => {
             console.log(response);
             this.setState({registerSuccess:true})
-            // localStorage.setItem('token', response.data.token)
-            // this.validateUser()
-            // this.setState({registerSuccess:true})
-            // this.props.history.push(`/login`)
-            // self.completeLogin(response);
           })
           .catch((error) => {
             console.log(error);

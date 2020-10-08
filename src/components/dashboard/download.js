@@ -34,7 +34,6 @@ class download extends Component {
         axios
             .get(url, config)
             .then((response) => {
-                console.log(response.data)
                 this.setState({files: response.data})
             })
             .catch((error) => {
@@ -43,8 +42,6 @@ class download extends Component {
     }  
 
     downloadFile = e => {
-        console.log(e.target.value)
-        console.log(e.target.id)
         this.setState({fileName: e.target.id})
         const url = '/files/getFile?cid=' + e.target.value
         var token = localStorage.getItem("token");
@@ -55,15 +52,7 @@ class download extends Component {
         axios
             .get(url, config)
             .then((response) => {
-                console.log(response.data)
                 this.setState({encryptedData: response.data.fileData})
-                console.log(this.state.fileText)
-                // console.log(this.state.fileText)
-                // console.log(this.state.RSAKey)
-                // console.log(JSON.parse(this.state.RSAKey))
-                // var key = JSON.parse(this.state.RSAKey)
-                // var decryptedData = cryptico.decrypt(this.state.fileText.toString(), key)
-                // console.log(decryptedData.plaintext)
                 this.decryptData()
                 this.makeFile()
             })
@@ -73,47 +62,19 @@ class download extends Component {
     }
 
     decryptData = () => {
-        console.log(this.state.fileText)
-        // console.log(JSON.parse(this.state.RSAKey))
         var userRSAkey = cryptico.generateRSAKey(this.state.password, 1024);
         var decryptedData = cryptico.decrypt(this.state.encryptedData, userRSAkey)
-        console.log(decryptedData.plaintext)
         this.setState({fileText: decryptedData.plaintext})
     }
 
     makeFile = () => {
         const element = document.createElement("a");
-        console.log(this.state.fileText)
         const file = new Blob([this.state.fileText], {type: 'text'});
         element.href = URL.createObjectURL(file);
         element.download = this.state.fileName;
-        document.body.appendChild(element); // Required for this to work in FireFox
+        document.body.appendChild(element); 
         element.click();
     }
-
-    // showFile = async (e) => {
-
-    //     console.log(e.target.value)
-    //     console.log(e.target.result)
-    //     console.log(e.target)
-    //     var file = e.target.value
-    //     // const filename = file.substring(12,)
-    //     // this.setname(filename)
-
-    //     e.preventDefault()
-    //     const reader = new FileReader()
-    //     reader.onload = async (e) => { 
-    //         // console.log(reader)
-    //       const text = (e.target.result)
-    //       console.log(text)
-    //       console.log(e.target.result)
-    //     //   console.log(e.target.value)
-    //       this.setState({RSAKey: cryptico.generateRSAKey(this.state.password, 1024)})
-    //     //   console.log(JSON.parse(this.state.RSAKey))
-    //     //   alert(text)
-    //     };
-    //     reader.readAsText(e.target.files[0])
-    // }
 
     handleChange = e => {                                             
         this.setState({
@@ -125,7 +86,6 @@ class download extends Component {
         if(this.state.password){
             this.setState({showFiles: true})
         }
-       
     }  
 
     render(){
@@ -143,39 +103,36 @@ class download extends Component {
                         Download
                     </button>
                 </div>
-            )
-        }
-
+                )
+            }
         )
+        
         return(
             <div><Navbar />
                 <div className="container">
 
                 {!this.state.showFiles && (
                     <div style={{"padding-left":"350px", "padding-bottom":"50px", "padding-top":"200px"}} className="col-md-8">
-                    <label htmlFor="exampleInputPassword1">Please enter your Password to continue</label>
-                    <input
-                      className="form-control"
-                      id="password"
-                      onChange={this.handleChange}
-                      type="password"
-                      placeholder="Password"
-                    />
+                        <label htmlFor="exampleInputPassword1">Please enter your Password to continue</label>
+                        <input
+                        className="form-control"
+                        id="password"
+                        onChange={this.handleChange}
+                        type="password"
+                        placeholder="Password"
+                        />
 
-                    <button onClick={this.showFiles} className="btn btn-success"style={{"margin-left":"140px", "margin-bottom":"50px", "margin-top":"50px"}} >Continue</button>
-                </div>   
+                        <button 
+                            onClick={this.showFiles} 
+                            className="btn btn-success"
+                            style={{"margin-left":"140px", "margin-bottom":"50px", "margin-top":"50px"}} 
+                        >Continue</button>
+                    </div>   
                 )}    
-
-                 
 
                 {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>)}
                 {this.state.showFiles && (<div>{files}</div>)}
 
-                
-        
-                {/* <div style={{"padding-left":"450px", "padding-bottom":"50px", "padding-top":"50px"}}>Open RSA Key
-                    <input type="file" onChange={(e)=>{this.showFile(e)}}/> 
-                </div> */}
                 </div>
             </div>
         )

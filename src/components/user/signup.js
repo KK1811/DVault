@@ -52,8 +52,6 @@ class Signup extends Component {
       console.log(responseJson);
       this.setState({showPopup: true, qrimage: responseJson[1].qrimage})
       this.handleQR(responseJson[1].qrimage)
-      // return responseJson.success;
-
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +61,6 @@ class Signup extends Component {
     if(this.qrimage){
       this.setState({showPopup: true})
     }
-    // console.log(this.state.showPopup)
   }
 
   componentDidMount(){
@@ -137,11 +134,7 @@ class Signup extends Component {
     );
     var str = e.target.value
     console.log(e.target.value)
-    // if (str.match(/[a-z]/g)){
-    //   this.setState({passErrorSmall: false})
-    // }else{
-    //   this.setState({passErrorSmall: true})
-    // }
+    
     if (str.match(/[A-Z]/g)){
       this.setState({passErrorCapital: false})
     }else{
@@ -387,7 +380,6 @@ class Signup extends Component {
           </div>
         </div>
         <div> {this.state.showPopup ?  <Qrimage qrimage={this.state.qrimage} email={this.state.email} /> : null}  </div>
-        {/* <Qrimage qrimage={this.state.qrimage} email={this.state.email} /> */}
       </section>
     );
   }
