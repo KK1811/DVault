@@ -16,22 +16,10 @@ class upload extends Component {
             userid: "",
             publicKey:"",
             name:"",
-            uploadMessage:""
+            uploadMessage:"",
+            errorMessage:""
         }
       }
-
-    // handleClick(e) {
-    //     this.refs.fileUploader.click();
-    // }
-
-    // onChangeFile(event) {
-    //     event.stopPropagation();
-    //     event.preventDefault();
-    //     var file = event.target.files[0];
-    //     console.log(event.target);
-    //     console.log(file.name);
-    //     this.setState({file}); /// if you want to upload latter
-    // }
 
     showFile = async (e) => {
 
@@ -43,7 +31,6 @@ class upload extends Component {
         e.preventDefault()
         const reader = new FileReader()
         reader.onload = async (e) => { 
-            // console.log(reader)
           const text = (e.target.result)
         //   console.log(e.target.value)
           this.setState({fileText: text})
@@ -65,25 +52,27 @@ class upload extends Component {
 
     getPublicKey = () => {
         // const url = "/users/myInfo?publicKey=true"
-        const url = "/users/myInfo?publicKey=true"
-        var token = localStorage.getItem("token");
-        var config = {
-        headers: { "token": token }
-        };
-        console.log(token)
-        axios                                                                                              
-            .get(url, config)
-            .then((response) =>{
-              console.log(response.data[0]._id)
-              this.setState({
-                  userid: response.data[0]._id,
-                  publicKey: response.data[0].publicKey
-              })
-              this.encryptData()
-            }) 
-            .catch((error) => {
-                console.log(error.response)
-            })
+            const url = "/users/myInfo?publicKey=true"
+            var token = localStorage.getItem("token");
+            this.setState({uploadMessage: "Uploading File ..."})
+            var config = {
+            headers: { "token": token }
+            };
+            console.log(token)
+            axios                                                                                              
+                .get(url, config)
+                .then((response) =>{
+                console.log(response.data[0]._id)
+                this.setState({
+                    userid: response.data[0]._id,
+                    publicKey: response.data[0].publicKey
+                })
+                this.encryptData()
+                }) 
+                .catch((error) => {
+                    console.log(error.response)
+                })
+        
     }
 
     encryptData = () => {
@@ -118,6 +107,7 @@ class upload extends Component {
           })
           .catch((error) => {
             console.log(error.response);
+            // this.setState({errorMessage: error.response.data})
           });
     } 
 
@@ -151,7 +141,8 @@ class upload extends Component {
                     />  */}
 
                     <div style={{"padding-left":"460px", "padding-bottom":"50px", "padding-top":"50px"}}><button className="btn btn-success" onClick={this.getPublicKey}>Encrypt and Upload</button></div>
-                <p className="text-success" style={{"margin-left":"500px"}}> {this.state.uploadMessage}</p>
+                    {!this.state.errorMessage && (<p className="text-success" style={{"margin-left":"480px"}}> {this.state.uploadMessage}</p>)}
+                    <p className="text-danger" style={{"margin-left":"480px"}}> {this.state.errorMessage}</p>
                 </div>
             </div>
             </div>

@@ -15,7 +15,8 @@ class download extends Component {
             files:[],
             RSAKey:"",
             password:"",
-            encryptedData:""
+            encryptedData:"",
+            showFiles: false
         }
       }
 
@@ -120,10 +121,28 @@ class download extends Component {
           });
       };
 
+    showFiles = () => {
+        if(this.state.password){
+            this.setState({showFiles: true})
+        }
+       
+    }  
+
     render(){
         var files = this.state.files.map(file => {
             return(
-                <div>{file.name}<button onClick={this.downloadFile} value={file.ipfsHash} id={file.name}>Download</button></div>
+                <div className="card col-md-3 float-left" style={{"margin-left":"20px", "padding-left":"20px", "padding-bottom":"20px", "padding-top":"20px", "max-width":"20rem"}} >
+                    <div className="container" style={{"margin-right":"50px", "margin-left":"70px"}}>{file.name}</div>
+                    <br/>
+                    <button 
+                    className="btn btn-success" 
+                    style={{"margin-right":"50px", "margin-top":"10px", "margin-left":"50px"}}
+                    onClick={this.downloadFile} 
+                    value={file.ipfsHash} 
+                    id={file.name}>
+                        Download
+                    </button>
+                </div>
             )
         }
 
@@ -132,7 +151,9 @@ class download extends Component {
             <div><Navbar />
                 <div className="container">
 
-                <label htmlFor="exampleInputPassword1">Password</label>
+                {!this.state.showFiles && (
+                    <div style={{"padding-left":"350px", "padding-bottom":"50px", "padding-top":"200px"}} className="col-md-8">
+                    <label htmlFor="exampleInputPassword1">Please enter your Password to continue</label>
                     <input
                       className="form-control"
                       id="password"
@@ -141,14 +162,21 @@ class download extends Component {
                       placeholder="Password"
                     />
 
-                <div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>
-                    {files}
-                </div>
+                    <button onClick={this.showFiles} className="btn btn-success"style={{"margin-left":"140px", "margin-bottom":"50px", "margin-top":"50px"}} >Continue</button>
+                </div>   
+                )}    
+
+                 
+
+                {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>)}
+                {this.state.showFiles && (<div>{files}</div>)}
+
+                
         
                 {/* <div style={{"padding-left":"450px", "padding-bottom":"50px", "padding-top":"50px"}}>Open RSA Key
                     <input type="file" onChange={(e)=>{this.showFile(e)}}/> 
                 </div> */}
-            
+                </div>
             </div>
         )
     }

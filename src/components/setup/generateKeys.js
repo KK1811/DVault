@@ -28,6 +28,10 @@ class generateKeys extends Component {
 
     generate = () => {
         
+        if(!this.state.password){
+            this.setState({passwordError: "Please enter your password"})
+        }else if(!this.state.passwordError){
+        
         this.setState(
             { message: "Please wait ..." }
         )
@@ -45,23 +49,6 @@ class generateKeys extends Component {
 
         console.log(RSAKeyJSON)
 
-        // console.log(JSON.stringify(userRSAkey.dmp1))
-        // console.log(JSON.stringify(userRSAkey))
-        
-        // var coeff = userRSAkey.coeff
-        // var d = userRSAkey.d
-        // var dmp1 = userRSAkey.dmp1
-        // var dmq1 = userRSAkey.dmq1
-        // var e = userRSAkey.e
-        // var n = userRSAkey.n
-        // var p = userRSAkey.p
-        // var q = userRSAkey.q
-
-        // var RSAKey = {'coeff': coeff, 'd': d, 'dmp1': dmp1, 'dmq1': dmq1, 'e': e, 'n': n, 'p': p, 'q': q}
-        // console.log(RSAKey)
-        // console.log(JSON.stringify(RSAKey))
-
-        // this.downloadFile(JSON.stringify(RSAKey))
         this.uploadKey(userPublicKey)
         
         this.setState(
@@ -69,6 +56,7 @@ class generateKeys extends Component {
         )
 
         this.props.history.push(`/upload`)
+        }
     }
 
     downloadFile = (key) => {
@@ -104,21 +92,19 @@ class generateKeys extends Component {
         const {password} = this.state.password;
         return(
             <div className="container col-md-12">
-                
-                <div style={{"padding-left":"150px", "padding-top":"100px", "padding-bottom":"50px", "padding-right":"150px"}}>
-                    <h3>After generating cryptographic keys, a file containing your private key will be downloaded. 
-                        Please keep this file safe as it is required to access your data.
-                        Please store this file in a removable flash drive.
-                    </h3>
-                </div>
 
+                
                 <div className="col-md-6 container"> 
                 <div style={{"padding-left":"320px", "padding-top":"50px", "padding-bottom":"50px"}}><h3>Generate Keys</h3></div>
+                <div style={{"padding-left":"250px", "padding-top":"100px", "padding-bottom":"50px", "padding-right":"150px"}}>
+                    <h3>Please enter your password to generate a public key for your ID</h3>
+                </div>
+
                
                 <h6>Please Enter your password to generate keys</h6>
                
                 <br/><br/>
-
+                
                 <input
                 className="form-control"
                 value={password}
@@ -138,6 +124,8 @@ class generateKeys extends Component {
                     type="password"
                     placeholder="Confirm Password"
                 />
+
+                <p className="text-danger">{this.state.passwordError}</p>
 
                 <br/><br/><br/>
 

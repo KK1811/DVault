@@ -11,7 +11,7 @@ class LandingPage extends Component{
                         <div className="row">
                             <div className="col-md-6">
                                 <h1 style={{"margin-left":"180px", "font-size":"60px"}}>DVault</h1>
-                                <h4 style={{"margin-left":"90px","margin-top":"30px"}}>Digital•Distributed•Death-Proof</h4>
+                                <h4 style={{"margin-left":"150px","margin-top":"30px"}}>Digital • Death-Proof</h4>
                                 <br/><br/>
                                 <p style={{"fontSize":"30px"}}>Our goal is to securely store and and transfer your data, even after your death</p>
                             </div>

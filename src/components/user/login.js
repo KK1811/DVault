@@ -21,6 +21,7 @@ class BuyerLogin extends Component{
       }
     
       getData = () => {
+        if(this.state.captchaVerified){
         const url = "/auth/userLogin"
         axios                                                          
           .post(url, {
@@ -38,7 +39,8 @@ class BuyerLogin extends Component{
             // this.errorLogin(error);
             console.log(error.response)
           });
-      };
+        }  
+      }
 
       errorLogin = e => {                                               //checking for invalid user
         this.setState({
@@ -92,17 +94,17 @@ class BuyerLogin extends Component{
         }
       };
 
-      // verifyCallback(response) {
-      //   if (response) {
-      //     this.setState({
-      //       captchaVerified: true
-      //     })
-      //   }
-      // }
+      verifyCallback(response) {
+        if (response) {
+          this.setState({
+            captchaVerified: true
+          })
+        }
+      }
 
-      // recaptchaLoaded() {
-      //   console.log('capcha successfully loaded');
-      // }
+      recaptchaLoaded() {
+        console.log('capcha successfully loaded');
+      }
 
 
       verifyOtp = () => {
@@ -156,7 +158,7 @@ class BuyerLogin extends Component{
                     
                   </form>
                   
-                  <div className="container center" style={{"padding-left":"280px", "padding-top":"50px"}}><button className="btn btn-success center" onClick={this.getData}>Login</button></div>  
+                  <br/>
 
                   {/* <Recaptcha
                     sitekey="6LeFUrYZAAAAADNlFBBeQs8jmNFkgfyx3palDZvJ"
@@ -164,14 +166,17 @@ class BuyerLogin extends Component{
                     onloadCallback={this.recaptchaLoaded}
                     verifyCallback={this.verifyCallback}
                   /> */}
-
-                  {/* <Recaptcha
+                <div className="container col-md-6">
+                  <Recaptcha
                   sitekey="6LeFUrYZAAAAADNlFBBeQs8jmNFkgfyx3palDZvJ"
                   render="explicit"
                   onloadCallback={this.recaptchaLoaded}
                   verifyCallback={this.verifyCallback}
-                />
-                   */}
+                  />
+                </div>
+                  
+                  <div className="container center" style={{"padding-left":"280px", "padding-top":"50px"}}><button className="btn btn-success center" onClick={this.getData}>Login</button></div>  
+
                   <br/><br/>
 
                   {this.state.userValid && (<div className="popup"><div className="popup\_internal container col-md-5" style={{"padding":"100px", "margin-top":"380px","margin-left":"500px", "margin-right":"480px", "background":"white"}}><input classname="form-control container" style={{"margin-left":"160px"}} placeholder="OTP" id="otp" onChange={this.handleChange}></input><br/><br/><button style={{"margin-left":"230px"}} className="btn btn-success" onClick={this.verifyOtp}>Verify OTP</button></div></div>)}
