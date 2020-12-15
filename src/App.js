@@ -9,10 +9,14 @@ import qrimage from './components/user/qrimage'
 import upload from './components/dashboard/upload'
 // import { Navbar } from './components/navigation/navbar'
 import homepage from './components/homepage/homepage'
-import test from './components/homepage/test'
+// import test from './components/homepage/test'
 import download from './components/dashboard/download';
-import decrypt from './components/dashboard/decrypt'
-import cryptotest from './components/homepage/crytotest'
+// import decrypt from './components/dashboard/decrypt'
+// import cryptotest from './components/homepage/crytotest'
+import deadman from './components/dashboard/deadman'
+import proof from './components/dashboard/proofOfLife'
+import publictransactions from './components/dashboard/publicTransactions'
+import publicproofs from './components/dashboard/publicProofs';
 
 function App() {
   return (
@@ -27,10 +31,14 @@ function App() {
         <Route exact path='/signup' component={signup} />
         <Route exact path='/qr/:id' component={qrimage} />
         <Route exact path='/upload' component={upload} />
-        <Route exact path='/test' component={test} />
-        <Route exact path='/ctest' component={cryptotest} />
+        {/* <Route exact path='/test' component={test} /> */}
+        {/* <Route exact path='/ctest' component={cryptotest} /> */}
         <Route exact path='/download' component={download} />
-        <Route exact path='/decrypt' component={decrypt} />
+        {/* <Route exact path='/decrypt' component={decrypt} /> */}
+        <Route exact path='/deadman' component={deadman} />
+        <Route exact path='/proof' component={proof} />
+        <Route exact path='/publictransactions' component={publictransactions} />
+        <Route exact path='/publicproofs' component={publicproofs} />
       </Switch>
       </BrowserRouter>
     </div>

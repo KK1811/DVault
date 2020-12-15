@@ -17,14 +17,15 @@ export class Navbar extends Component{
                 
                     <div>
                         <ul className="navbar-nav mr-auto float-left">
-                            <li className="nav-item active"><NavLink to='/upload'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"200px","margin-left":"0px" }}>Upload Files</button></div></NavLink></li>
-                            <li className="nav-item active"><NavLink to='/download'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"100px" }}>My Files</button></div></NavLink></li>
-                        
+                            <li className="nav-item active"><NavLink to='/upload'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"190px" }}>Upload Files</button></div></NavLink></li>
+                            <li className="nav-item active"><NavLink to='/download'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"50px" }}>My Files</button></div></NavLink></li>
+                            <li className="nav-item active"><NavLink to='/deadman'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"50px" }}>Transactions</button></div></NavLink></li>
+                            <li className="nav-item active"><NavLink to='/proof'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"50px" }}>Proofs</button></div></NavLink></li>
                             <li className="nav-item active float-right">
                                 
                                 <NavLink to='/'>
                                     <div className="float-right">
-                                        <button type="button" className="btn btn-success right" style={{ "fontSize":"1.8em","width":"180px", "margin-left":"650px", "color":"white" }} onClick={this.logout}>Logout</button>
+                                        <button type="button" className="btn btn-success right" style={{ "fontSize":"1.8em","width":"180px", "margin-left":"250px", "color":"white" }} onClick={this.logout}>Logout</button>
                                     </div>
                                 </NavLink>
                                     
