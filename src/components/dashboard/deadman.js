@@ -22,6 +22,7 @@ class deadman extends Component {
             findEmail: '',
             publicKey: '',
             myTransactions: [],
+            transactions: [],
             files:[],
             emailFound: '',
             emailNotFound:'',
@@ -40,7 +41,7 @@ class deadman extends Component {
 
     componentDidMount(){
         this.getTransactions()
-        this.sortByDate()
+        //this.sortByDate()
         //this.getFiles()
     }  
 
@@ -172,7 +173,9 @@ class deadman extends Component {
     }  
 
     getTransEmail =() => {
+        var _transactions = []
         this.state.myTransactions.map((transaction) => {
+            var email = ''
             const url = "/users/getPubKey?_id=" + transaction.createdFor.toString()
             var token = localStorage.getItem("token");
             var config = {
@@ -183,13 +186,22 @@ class deadman extends Component {
                 .then((response) =>{
                 this.setState({recipientEmail: response.data.email})   
                 console.log(response.data.email)
+                email = response.data.email
+                transaction = {...transaction, recipientEmail: email}
+                console.log(transaction)
+                _transactions.push(transaction)
+                _transactions.sort((a,b) => a.releaseDate > b.releaseDate)
+                console.log(_transactions)
+                // this.setState({transactions: _transactions})
+                // this.sortByDate()
                 }) 
                 .catch((error) => {
                     console.log(error.response)
                 })
-            transaction = {...transaction, recipientEmail: this.state.recipientEmail}
         })
-        console.log(this.state.myTransactions)
+        this.setState({transactions: _transactions})
+        //this.sortByDate()
+        console.log(this.state.transactions)
     }
 
     proofOfLife = () => {
@@ -217,9 +229,9 @@ class deadman extends Component {
     }
 
     sortByDate = () => {
-        var transactions = this.state.myTransactions
+        var _transactions = this.state.transactions
         this.setState({
-            myTransactions: transactions.sort((a,b) => a.date > b.date)
+            transactions: _transactions.sort((a,b) => a.releaseDate < b.releaseDate)
         })
     }
 
@@ -340,26 +352,23 @@ class deadman extends Component {
         console.log(this.state.releaseDate)
     }
 
-    testTrans = () => {
-        console.log(this.state.myTransactions)
-    }
-
     render(){
 
         var files = this.state.files.map((file) =>
             {return(<option key={file.ipfsHash} value={file.name}>{file.name}</option>)}
         );
 
-        var transactions = this.state.myTransactions.map(transaction => {
+        var transactions = this.state.transactions.map(transaction => {
             console.log(transaction.createdFor)
             // this.getEmail(transaction.createdFor)
             return(
                     <div className="row container list-group">
                         <div className="list-group-item">
-                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.fileName}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"120px"}}>{transaction.fileName}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"120px"}}>{transaction.recipientEmail}</div>
                         {/* <div className="col-md-3 float-left" style={{"padding-left":"130px"}}>{this.state.recipientEmail}</div> */}
-                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.createdDate.substring(10,0)}</div>
-                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.releaseDate.substring(10,0)}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"150px"}}>{transaction.createdDate.substring(10,0)}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"150px"}}>{transaction.releaseDate.substring(10,0)}</div>
                         <br/>
                         </div>
                     </div>
@@ -432,10 +441,11 @@ class deadman extends Component {
                     <div className="container center" style={{"padding-left":"440px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>My Transactions</h3></div>
 
                     <tr>
-                        <td style={{"padding-left":"520px", "padding-top":"50px"}}><h5>File Name</h5></td>
+                        <td style={{"padding-left":"460px", "padding-top":"50px"}}><h5>File Name</h5></td>
                         {/* <td style={{"padding-left":"170px", "padding-top":"50px"}}><h5>Created For</h5></td> */}
-                        <td style={{"padding-left":"250px", "padding-top":"50px"}}><h5>Created Date</h5></td>
-                        <td style={{"padding-left":"220px", "padding-top":"50px"}}><h5>Release Date</h5></td>
+                        <td style={{"padding-left":"180px", "padding-top":"50px"}}><h5>Created For</h5></td>
+                        <td style={{"padding-left":"150px", "padding-top":"50px"}}><h5>Created Date</h5></td>
+                        <td style={{"padding-left":"130px", "padding-top":"50px"}}><h5>Release Date</h5></td>
                     </tr>
 
                     <div style={{"padding-left":"350px", "padding-bottom":"50px"}}>
@@ -444,6 +454,7 @@ class deadman extends Component {
                     <br/><br/>
                     <NavLink to='/publictransactions'><button type="button" className="btn btn-success btn-lg right" style={{ "margin-left":"780px" }}>View Public Transactions</button></NavLink>
                     <br/><br/>
+                
                 </div>
             </div>    
         )
