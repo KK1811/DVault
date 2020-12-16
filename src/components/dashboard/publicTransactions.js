@@ -73,7 +73,18 @@ class publictransactions extends Component {
                 <div className="row list-group">
                     <br /><br /><br /><br />
                     <div style={{"padding-left":"100px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>Public Transactions</h3></div>
-                    {transactions}
+
+                    <tr>
+                        <td style={{"padding-left":"400px", "padding-top":"50px"}}><h5>Username</h5></td>
+                        <td style={{"padding-left":"110px", "padding-top":"50px"}}><h5>Created Date</h5></td>
+                        <td style={{"padding-left":"60px", "padding-top":"50px"}}><h5>Release Date</h5></td>
+                        <td style={{"padding-left":"100px", "padding-top":"50px"}}><h5>File Name and IPFS Hash</h5></td>
+
+                    </tr>
+
+                    <div style={{"padding-left":"350px", "padding-bottom":"50px"}}>
+                        {transactions}
+                    </div>
                 </div>
             </div>    
         )

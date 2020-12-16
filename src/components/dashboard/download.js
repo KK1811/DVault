@@ -13,6 +13,7 @@ class download extends Component {
             fileName: "",
             fileExtension: "txt",
             files:[],
+            receivedFiles: [],
             RSAKey:"",
             password:"",
             encryptedData:"",
@@ -22,6 +23,7 @@ class download extends Component {
 
     componentDidMount(){
         this.getFiles()
+        this.getTransactions()
     }  
 
     getFiles = () => {
@@ -88,6 +90,33 @@ class download extends Component {
         }
     }  
 
+    getTransactions = () => {
+        const url = "/users/myInfo?publicKey=true"
+        var token = localStorage.getItem("token");
+        var config = {
+        headers: { "token": token }
+        };
+        var geturl;
+        axios                                                                                              
+            .get(url, config)
+            .then((response) =>{
+            geturl = "/transactions/MyTransactions?completed=true&createdFor=" + response.data[0]._id;
+            console.log(this.state)
+                axios
+                .get(geturl, config)
+                .then((response) => {
+                    console.log(response)
+                    this.setState({receivedFiles: response.data})
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            }) 
+            .catch((error) => {
+                console.log(error.response)
+            })
+    }  
+
     render(){
         var files = this.state.files.map(file => {
             return(
@@ -100,6 +129,25 @@ class download extends Component {
                     onClick={this.downloadFile} 
                     value={file.ipfsHash} 
                     id={file.name}>
+                        Download
+                    </button>
+                </div>
+                )
+            }
+        )
+
+        var receivedfiles = this.state.receivedFiles.map(file => {
+            return(
+                <div className="card col-md-3 float-left" style={{"margin-left":"20px", "padding-left":"20px", "padding-bottom":"20px", "padding-top":"20px", "max-width":"20rem"}} >
+                    <div className="container" style={{"margin-right":"50px", "margin-left":"70px"}}>{file.fileName}</div>
+                    
+                    <br/>
+                    <button 
+                    className="btn btn-success" 
+                    style={{"margin-right":"50px", "margin-top":"10px", "margin-left":"50px"}}
+                    onClick={this.downloadFile} 
+                    value={file.ipfsHash} 
+                    id={file.FileName}>
                         Download
                     </button>
                 </div>
@@ -132,6 +180,9 @@ class download extends Component {
 
                 {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>)}
                 {this.state.showFiles && (<div>{files}</div>)}
+
+                {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>Received files</h4></div>)}
+                {this.state.showFiles && (<div>{receivedfiles}</div>)}
 
                 </div>
             </div>

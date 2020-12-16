@@ -33,7 +33,8 @@ class deadman extends Component {
             postedError: '',
             proofMessage: '',
             proofError: '',
-            date: new Date
+            date: new Date,
+            recipientEmail: ''
         }
     }
 
@@ -142,23 +143,54 @@ class deadman extends Component {
       }
 
     getTransactions = () => {
-        this.getPublicKey()
-        const url = "/transactions/MyTransactions?userId="+this.state.userId;
+        const url = "/users/myInfo?publicKey=true"
         var token = localStorage.getItem("token");
         var config = {
         headers: { "token": token }
         };
-
-        axios
+        var geturl;
+        axios                                                                                              
             .get(url, config)
-            .then((response) => {
-                console.log(response.data)
-                this.setState({myTransactions: response.data})
-            })
+            .then((response) =>{
+            geturl = "/transactions/MyTransactions?createdBy=" + response.data[0]._id
+            this.setState({userId: response.data[0]._id})    
+            console.log(this.state)
+                axios
+                .get(geturl, config)
+                .then((response) => {
+                    console.log(response)
+                    this.setState({myTransactions: response.data})
+                    this.getTransEmail()
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            }) 
             .catch((error) => {
-                console.log(error)
+                console.log(error.response)
             })
     }  
+
+    getTransEmail =() => {
+        this.state.myTransactions.map((transaction) => {
+            const url = "/users/getPubKey?_id=" + transaction.createdFor.toString()
+            var token = localStorage.getItem("token");
+            var config = {
+            headers: { "token": token }
+            };
+            axios                                                                                              
+                .get(url, config)
+                .then((response) =>{
+                this.setState({recipientEmail: response.data.email})   
+                console.log(response.data.email)
+                }) 
+                .catch((error) => {
+                    console.log(error.response)
+                })
+            transaction = {...transaction, recipientEmail: this.state.recipientEmail}
+        })
+        console.log(this.state.myTransactions)
+    }
 
     proofOfLife = () => {
         const url = "/proofs/giveProof";
@@ -236,7 +268,27 @@ class deadman extends Component {
             this.setState({
                 userId: response.data[0]._id,
             })
+            console.log(this.state)
             //this.encryptData()
+            }) 
+            .catch((error) => {
+                console.log(error.response)
+            })
+    }
+
+    getEmail (uid) {
+        var id = uid
+        const url = "/users/getPubKey?_id=" + id
+        var token = localStorage.getItem("token");
+        var config = {
+        headers: { "token": token }
+        };
+        axios                                                                                              
+            .get(url, config)
+            .then((response) =>{
+            this.setState({recipientEmail: response.data.email})   
+            console.log(response.data.email)
+            return response.data.email
             }) 
             .catch((error) => {
                 console.log(error.response)
@@ -288,6 +340,10 @@ class deadman extends Component {
         console.log(this.state.releaseDate)
     }
 
+    testTrans = () => {
+        console.log(this.state.myTransactions)
+    }
+
     render(){
 
         var files = this.state.files.map((file) =>
@@ -295,11 +351,15 @@ class deadman extends Component {
         );
 
         var transactions = this.state.myTransactions.map(transaction => {
+            console.log(transaction.createdFor)
+            // this.getEmail(transaction.createdFor)
             return(
-                    <div className="row container list-group" >
+                    <div className="row container list-group">
                         <div className="list-group-item">
-                        <div className="col-md-4 float-left">{transaction.filename}</div>
-                        <div className="col-md-4 float-left">{transaction.releaseDate.substring(10,0)}</div>
+                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.fileName}</div>
+                        {/* <div className="col-md-3 float-left" style={{"padding-left":"130px"}}>{this.state.recipientEmail}</div> */}
+                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.createdDate.substring(10,0)}</div>
+                        <div className="col-md-4 float-left" style={{"padding-left":"180px"}}>{transaction.releaseDate.substring(10,0)}</div>
                         <br/>
                         </div>
                     </div>
@@ -312,7 +372,7 @@ class deadman extends Component {
             <div>
                 <Navbar />
                 <div className="row list-group">
-                <div style={{"padding-left":"100px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>Create a new Transaction</h3></div>
+                <div className="container center" style={{"padding-left":"400px", "padding-bottom":"50px", "padding-top":"80px"}}><h3>Create a new Transaction</h3></div>
                     <tr>
                         <td>
                             <br/><br/>
@@ -369,10 +429,21 @@ class deadman extends Component {
                     </div>
 
                     <br /><br /><br /><br />
-                    <div style={{"padding-left":"100px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>My Transactions</h3></div>
-                    {transactions}
+                    <div className="container center" style={{"padding-left":"440px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>My Transactions</h3></div>
+
+                    <tr>
+                        <td style={{"padding-left":"520px", "padding-top":"50px"}}><h5>File Name</h5></td>
+                        {/* <td style={{"padding-left":"170px", "padding-top":"50px"}}><h5>Created For</h5></td> */}
+                        <td style={{"padding-left":"250px", "padding-top":"50px"}}><h5>Created Date</h5></td>
+                        <td style={{"padding-left":"220px", "padding-top":"50px"}}><h5>Release Date</h5></td>
+                    </tr>
+
+                    <div style={{"padding-left":"350px", "padding-bottom":"50px"}}>
+                        {transactions}
+                    </div>
                     <br/><br/>
-                    <NavLink to='/publictransactions'><button type="button" className="btn btn-success btn-lg right" style={{ "margin-left":"100px" }}>View Public Transactions</button></NavLink>
+                    <NavLink to='/publictransactions'><button type="button" className="btn btn-success btn-lg right" style={{ "margin-left":"780px" }}>View Public Transactions</button></NavLink>
+                    <br/><br/>
                 </div>
             </div>    
         )

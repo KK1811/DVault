@@ -29,18 +29,20 @@ class proof extends Component {
         //this.getFiles()
     }  
 
-    proofOfLife = () => {
+    proofOfLife = (e) => {
         const url = "/proofs/giveProof";
         var token = localStorage.getItem("token");
+        console.log(e.target.value)
+        var month = e.target.value
         var config = {
         headers: { "token": token }
         };
         this.getPublicKey()
         console.log(this.state)
-        axios                                                                           //posting a new subscription
+        axios                                                                           
           .post(url, {
               userId: this.state.userId,
-              months: 6
+              months: month
           } , config)
           .then((response) => {
             console.log(response)
@@ -111,9 +113,16 @@ class proof extends Component {
             <div>
                 <Navbar />
                 
-                <button className="btn btn-success" onClick={this.proofOfLife}>Proof</button>
+                <div className="container center" style={{"padding-left":"400px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>Give Proof of Life</h3></div>
+
+                <div className="container center" style={{"padding-left":"360px", "padding-bottom":"50px", "padding-top":"50px"}}>
+                    <button className="btn btn-success" value={1} onClick={this.proofOfLife} style={{"margin-left":"0px"}}>1 Month</button>
+                    <button className="btn btn-success" value={3} onClick={this.proofOfLife} style={{"margin-left":"40px"}}>3 Months</button>
+                    <button className="btn btn-success" value={6} onClick={this.proofOfLife} style={{"margin-left":"40px"}}>6 Months</button>
+                    <br />
                     <p className="text-success">{this.state.proofMessage}</p>
                     <p className="text-danger">{this.state.proofError}</p>
+                </div>
                     <br /><br /><br /><br />
                     <div className="container center" style={{"padding-left":"400px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>My Proof of Life</h3></div>
                     <tr>

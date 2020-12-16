@@ -87,11 +87,11 @@ class publicproofs extends Component {
                     <tr>
                         <td style={{"padding-left":"520px", "padding-top":"50px"}}><h5>User ID</h5></td>
                         <td style={{"padding-left":"200px", "padding-top":"50px"}}><h5>Issued Date</h5></td>
-                        <td style={{"padding-left":"150px", "padding-top":"50px"}}><h5>Time</h5></td>
-                        <td style={{"padding-left":"150px", "padding-top":"50px"}}><h5>Months Extended</h5></td>
+                        <td style={{"padding-left":"145px", "padding-top":"50px"}}><h5>Time</h5></td>
+                        <td style={{"padding-left":"130px", "padding-top":"50px"}}><h5>Months Extended</h5></td>
                     </tr>
      
-                    <div style={{"padding-left":"350px", "padding-bottom":"50px", "padding-top":"50px"}}>
+                    <div style={{"padding-left":"350px", "padding-bottom":"50px", "padding-top":"10px"}}>
                         {allproofs}
                     </div>
                     <p className="text-danger">{this.state.proofError}</p>
