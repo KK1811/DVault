@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import cryptico from 'cryptico'
 import axios from "axios";
-import { Link } from 'react-router-dom'
 import { Navbar } from './navbar'
 
 class upload extends Component {

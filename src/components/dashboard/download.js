@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import cryptico from 'cryptico'
 import axios from "axios";
-import { Link } from 'react-router-dom'
 import { Navbar } from './navbar'
 
 class download extends Component {
@@ -45,6 +44,7 @@ class download extends Component {
 
     downloadFile = e => {
         this.setState({fileName: e.target.id})
+        console.log(e.target.value)
         const url = '/files/getFile?cid=' + e.target.value
         var token = localStorage.getItem("token");
         var config = {
@@ -55,7 +55,8 @@ class download extends Component {
             .get(url, config)
             .then((response) => {
                 this.setState({encryptedData: response.data.fileData})
-                this.decryptData()
+                console.log(response.data)
+                this.decryptData(response.data.fileData)
                 this.makeFile()
             })
             .catch((error) => {
@@ -63,9 +64,10 @@ class download extends Component {
             })
     }
 
-    decryptData = () => {
+    decryptData = (data) => {
+        console.log(data)
         var userRSAkey = cryptico.generateRSAKey(this.state.password, 1024);
-        var decryptedData = cryptico.decrypt(this.state.encryptedData, userRSAkey)
+        var decryptedData = cryptico.decrypt(data, userRSAkey)
         this.setState({fileText: decryptedData.plaintext})
     }
 
@@ -177,13 +179,16 @@ class download extends Component {
                         >Continue</button>
                     </div>   
                 )}    
-
-                {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>)}
-                {this.state.showFiles && (<div>{files}</div>)}
-
-                {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>Received files</h4></div>)}
-                {this.state.showFiles && (<div>{receivedfiles}</div>)}
-
+                
+                 <div className="container" style={{"margin-top": "50px", "margin-bottom": "50px"}}>     
+                    {this.state.showFiles && (<div style={{"padding-left":"480px", "padding-bottom":"50px", "padding-top":"50px"}}><h4>My files</h4></div>)}
+                    {this.state.showFiles && (<div>{files}</div>)}
+                </div>
+                <br/><br/><br/><br/>   
+                <div style={{"padding-top": "500px"}}>   
+                    {this.state.showFiles && (<div style={{"padding-left":"470px", "padding-bottom":"50px", "padding-top":"100px"}}><h4>Received files</h4></div>)}
+                    {this.state.showFiles && (<div>{receivedfiles}</div>)}
+                </div>    
                 </div>
             </div>
         )

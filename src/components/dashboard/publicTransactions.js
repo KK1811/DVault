@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { useState } from 'react'
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import { Navbar } from './navbar'
-import cryptico from 'cryptico'
-import Calendar from 'react-calendar'
+
 
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
@@ -20,7 +17,6 @@ class publictransactions extends Component {
     componentDidMount(){
         this.getTransactions()
         this.sortByDate()
-        //this.getFiles()
     }  
 
     getTransactions = () => {
@@ -72,7 +68,7 @@ class publictransactions extends Component {
                 <Navbar />
                 <div className="row list-group">
                     <br /><br /><br /><br />
-                    <div style={{"padding-left":"100px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>Public Transactions</h3></div>
+                    <div className="container center" style={{"padding-left":"400px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>Public Transactions</h3></div>
 
                     <tr>
                         <td style={{"padding-left":"400px", "padding-top":"50px"}}><h5>Username</h5></td>

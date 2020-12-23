@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-import { useState } from 'react'
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import { Navbar } from './navbar'
-import cryptico from 'cryptico'
-import Calendar from 'react-calendar'
-
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
 
@@ -100,7 +95,6 @@ class publicproofs extends Component {
             </div>    
         )
     }
-
 }
 
 export default publicproofs;

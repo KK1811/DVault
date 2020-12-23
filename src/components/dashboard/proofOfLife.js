@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
-import { useState } from 'react'
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import { Navbar } from './navbar'
-import cryptico from 'cryptico'
-import Calendar from 'react-calendar'
 import { NavLink } from 'react-router-dom'
-
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
 
@@ -23,10 +18,6 @@ class proof extends Component {
 
     componentDidMount(){
         this.getPublicKey()
-        // this.getMyProofs()
-        // this.getAllProofs()
-        //this.sortByDate()
-        //this.getFiles()
     }  
 
     proofOfLife = (e) => {
@@ -138,7 +129,6 @@ class proof extends Component {
             </div>    
         )
     }
-
 }
 
 export default proof;

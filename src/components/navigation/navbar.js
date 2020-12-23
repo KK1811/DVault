@@ -56,13 +56,6 @@ export class Navbar extends Component{
                 <div>
                 <ul className="navbar-nav mr-auto float-left">
                     <li className="nav-item active"><NavLink to='/upload'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"100px" }}>Upload File</button></div></NavLink></li>
-                    {/* <li className="nav-item active"><NavLink to='/download'><div className="float-left"><button type="button" className="btn btn-success btn-lg right" style={{ "fontSize":"1.8em","width":"175px","margin-left":"100px" }}>My Files</button></div></NavLink></li> */}
-                    {/* <li className="nav-item active"><NavLink to='/store/2'><div className="float-left"><button type="button" className="btn btn-primary right" style={{ "fontSize":"1.8em","width":"180px" }}>Merch Store</button></div></NavLink></li>
-                    <li className="nav-item active"><NavLink to='/library'><div className="float-left"><button type="button" className="btn btn-primary right" style={{ "fontSize":"1.8em","width":"120px" }}>Library</button></div></NavLink></li>
-                    <li className="nav-item active"><NavLink to='/friends'><div className="float-right"><button type="button" className="btn btn-primary right" style={{ "fontSize":"1.8em","width":"120px" }}>Friends</button></div></NavLink></li> */}
-                {/* </ul>
-                <ul className="navbar-nav mr-auto float-right"> */}
-                    {/* <li className="nav-item active"><NavLink to='/profile'><div className="float-right"><button type="button" className="btn btn-success right" style={{ "fontSize":"1.8em","width":"120px" }}>Profile</button></div></NavLink></li> */}
                 
                     <li className="nav-item active float-right">
                         

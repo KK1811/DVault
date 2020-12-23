@@ -41,15 +41,7 @@ class deadman extends Component {
 
     componentDidMount(){
         this.getTransactions()
-        //this.sortByDate()
-        //this.getFiles()
     }  
-
-    // componentWillUpdate(){
-    //     this.getTransactions()
-    //     this.sortByDate()
-    //     //this.getFiles()
-    // }
 
     getFiles = () => {
         const url = "/files/myFiles";
@@ -99,7 +91,6 @@ class deadman extends Component {
     onDropdownSelected = (e) => {
         this.setState({
             fileName: e.target.value,
-            //ipfsHash: e.target.id
         })
         var files = this.state.files.map((file)=>{
             console.log(file.name)
@@ -125,7 +116,7 @@ class deadman extends Component {
         var config = {
         headers: { "token": token }
         };
-        axios                                                                           //posting a new subscription
+        axios                                                                         
           .post(url, {
               fileName: this.state.fileName,
               ipfsHash: this.state.ipfsHash,
@@ -135,11 +126,11 @@ class deadman extends Component {
           } , config)
           .then((response) => {
             console.log(response)
-            this.setState({postedMessage: 'Posted'})
+            this.setState({postedMessage: 'Posted', postedError: ''})
           })
           .catch((error) => {
             console.log(error.response);
-            this.setState({postedError: 'Error'})
+            this.setState({postedError: 'Error', postedMessage: ''})
           });
       }
 
@@ -160,8 +151,7 @@ class deadman extends Component {
                 .get(geturl, config)
                 .then((response) => {
                     console.log(response)
-                    this.setState({myTransactions: response.data})
-                    this.getTransEmail()
+                    this.setState({transactions: response.data})
                 })
                 .catch((error) => {
                     console.log(error)
@@ -172,38 +162,6 @@ class deadman extends Component {
             })
     }  
 
-    getTransEmail =() => {
-        var _transactions = []
-        this.state.myTransactions.map((transaction) => {
-            var email = ''
-            const url = "/users/getPubKey?_id=" + transaction.createdFor.toString()
-            var token = localStorage.getItem("token");
-            var config = {
-            headers: { "token": token }
-            };
-            axios                                                                                              
-                .get(url, config)
-                .then((response) =>{
-                this.setState({recipientEmail: response.data.email})   
-                console.log(response.data.email)
-                email = response.data.email
-                transaction = {...transaction, recipientEmail: email}
-                console.log(transaction)
-                _transactions.push(transaction)
-                _transactions.sort((a,b) => a.releaseDate > b.releaseDate)
-                console.log(_transactions)
-                // this.setState({transactions: _transactions})
-                // this.sortByDate()
-                }) 
-                .catch((error) => {
-                    console.log(error.response)
-                })
-        })
-        this.setState({transactions: _transactions})
-        //this.sortByDate()
-        console.log(this.state.transactions)
-    }
-
     proofOfLife = () => {
         const url = "/proofs/giveProof";
         var token = localStorage.getItem("token");
@@ -212,7 +170,7 @@ class deadman extends Component {
         };
         this.getPublicKey()
         console.log(this.state)
-        axios                                                                           //posting a new subscription
+        axios                                                                          
           .post(url, {
               userId: this.state.userId,
               months: 6
@@ -249,7 +207,6 @@ class deadman extends Component {
 
         var file = e.target.value
         const filename = file.substring(12,)
-        // this.setname(filename)
         this.setState({fileName: filename})
 
         e.preventDefault()
@@ -280,8 +237,6 @@ class deadman extends Component {
             this.setState({
                 userId: response.data[0]._id,
             })
-            console.log(this.state)
-            //this.encryptData()
             }) 
             .catch((error) => {
                 console.log(error.response)
@@ -360,15 +315,12 @@ class deadman extends Component {
 
         var transactions = this.state.transactions.map(transaction => {
             console.log(transaction.createdFor)
-            // this.getEmail(transaction.createdFor)
             return(
                     <div className="row container list-group">
                         <div className="list-group-item">
-                        <div className="col-md-3 float-left" style={{"padding-left":"120px"}}>{transaction.fileName}</div>
-                        <div className="col-md-3 float-left" style={{"padding-left":"120px"}}>{transaction.recipientEmail}</div>
-                        {/* <div className="col-md-3 float-left" style={{"padding-left":"130px"}}>{this.state.recipientEmail}</div> */}
-                        <div className="col-md-3 float-left" style={{"padding-left":"150px"}}>{transaction.createdDate.substring(10,0)}</div>
-                        <div className="col-md-3 float-left" style={{"padding-left":"150px"}}>{transaction.releaseDate.substring(10,0)}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"220px"}}>{transaction.fileName}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"250px"}}>{transaction.createdDate.substring(10,0)}</div>
+                        <div className="col-md-3 float-left" style={{"padding-left":"250px"}}>{transaction.releaseDate.substring(10,0)}</div>
                         <br/>
                         </div>
                     </div>
@@ -441,16 +393,15 @@ class deadman extends Component {
                     <div className="container center" style={{"padding-left":"440px", "padding-bottom":"50px", "padding-top":"50px"}}><h3>My Transactions</h3></div>
 
                     <tr>
-                        <td style={{"padding-left":"460px", "padding-top":"50px"}}><h5>File Name</h5></td>
-                        {/* <td style={{"padding-left":"170px", "padding-top":"50px"}}><h5>Created For</h5></td> */}
-                        <td style={{"padding-left":"180px", "padding-top":"50px"}}><h5>Created For</h5></td>
-                        <td style={{"padding-left":"150px", "padding-top":"50px"}}><h5>Created Date</h5></td>
-                        <td style={{"padding-left":"130px", "padding-top":"50px"}}><h5>Release Date</h5></td>
+                        <td style={{"padding-left":"560px", "padding-top":"50px"}}><h5>File Name</h5></td>
+                        <td style={{"padding-left":"180px", "padding-top":"50px"}}><h5>Created Date</h5></td>
+                        <td style={{"padding-left":"140px", "padding-top":"50px"}}><h5>Release Date</h5></td>
                     </tr>
 
                     <div style={{"padding-left":"350px", "padding-bottom":"50px"}}>
                         {transactions}
                     </div>
+
                     <br/><br/>
                     <NavLink to='/publictransactions'><button type="button" className="btn btn-success btn-lg right" style={{ "margin-left":"780px" }}>View Public Transactions</button></NavLink>
                     <br/><br/>

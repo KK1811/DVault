@@ -167,7 +167,7 @@ class BuyerLogin extends Component{
 
                   <br/><br/>
 
-                  {this.state.userValid && this.state.captchaVerified && (<div className="popup"><div className="popup\_internal container col-md-5" style={{"padding":"100px", "margin-top":"380px","margin-left":"500px", "margin-right":"480px", "background":"white"}}><input classname="form-control container" style={{"margin-left":"160px"}} placeholder="OTP" id="otp" onChange={this.handleChange}></input><br/><br/><button style={{"margin-left":"230px"}} className="btn btn-success" onClick={this.verifyOtp}>Verify OTP</button></div></div>)}
+                  {this.state.userValid && (<div className="popup"><div className="popup\_internal container col-md-5" style={{"padding":"100px", "margin-top":"380px","margin-left":"500px", "margin-right":"480px", "background":"white"}}><input classname="form-control container" style={{"margin-left":"160px"}} placeholder="OTP" id="otp" onChange={this.handleChange}></input><br/><br/><button style={{"margin-left":"230px"}} className="btn btn-success" onClick={this.verifyOtp}>Verify OTP</button></div></div>)}
                   
                   <div style={{"padding-left":"180px"}}><Link to='/signup'>Don't have an account? Register now!</Link></div>
               </div>
