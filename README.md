@@ -1,10 +1,8 @@
-Open the project directory and run:
+DVault - A blockchain-based dead man’s switch
 
-### `npm install`
+•  A digital vault to store user data securely. Data is encrypted using the RSA algorithm and stored in IPFS (InterPlanetary File System). Data can also be transferred/released via an Ethereum smart contract in case of death.
 
-### `npm start`
+•  Tech: Node.js, Express.js, React, Solidity, IPFS
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
